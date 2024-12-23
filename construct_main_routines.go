@@ -25,10 +25,12 @@ import (
 
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/pcap"
+	"github.com/porfirion/trie"
 )
 
 var (
 	handle       *pcap.Handle
+	blocked_trie *trie.Trie[struct{}]
 	snapshot_len int32 = 1024
 	promiscuous  bool  = false
 	err          error
@@ -41,7 +43,7 @@ func InitParams() {
 
 	source_mac = getSourceMacAddr()
 	dest_mac = getHostMacAddr()
-	BuildTrie()
+	blocked_trie, _ = BuildTrie()
 
 }
 
@@ -75,6 +77,11 @@ func ConstructIncomingRoutine(workers int) chan *packet_metadata {
 			if packet == nil {
 				continue
 			}
+			if blocked_trie != nil && isBlocked(blocked_trie, packet.Saddr) {
+				fmt.Fprintf(os.Stderr, "BLOCKED IP %s\n", packet.Saddr)
+				continue
+			}
+
 			incoming <- packet
 		}
 
@@ -108,6 +115,10 @@ func ConstructPcapRoutine(workers int) chan *packet_metadata {
 				case data := <-pcapdQueue:
 					packet := convertToPacketM(data)
 					if packet == nil {
+						continue
+					}
+					if blocked_trie != nil && isBlocked(blocked_trie, packet.Saddr) {
+						fmt.Fprintf(os.Stderr, "BLOCKED IP %s\n", packet.Saddr)
 						continue
 					}
 					if dest_mac == "" {

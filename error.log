@@ -1,0 +1,13 @@
+++Writing results to file: default_20241223072200.json
+++Handshakes: http
+++Sending SYNs
+++Using SourceIP: true
+++Using Sending Interface: ens33
+++Using Gateway Mac: 00:0c:29:a0:cf:67
+++Worker threads: 1
+++Timeout Interval (s): 5
+++Retransmit Interval (s): 1
+++Number of Retransmitions: 1
+Finished Reading Input
+Runtime: 1.894625045s
+{"TotalResponses":0,"ZeroWindow":0,"ACKed":0,"Data":0,"No_SYNACK":0,"Rst":0,"Fin":0,"Resp_ack":0,"HyperACKtive":0}

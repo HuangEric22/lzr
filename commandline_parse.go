@@ -277,5 +277,8 @@ func NumHandshakes() int {
 }
 
 func getBlockedList() string {
+	if blockedList == nil {
+		return ""
+	}
 	return *blockedList
 }

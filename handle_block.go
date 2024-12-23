@@ -27,6 +27,12 @@ import (
 
 func BuildTrie() (*trie.Trie[struct{}], error) {
 	filePath := getBlockedList()
+	// fmt.Fprintf(os.Stderr, "FILE PATH: |%s|", filePath)
+
+	if filePath == "" {
+		return nil, nil
+	}
+
 	file, err := os.Open(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open file: %w", err)
