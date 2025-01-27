@@ -4,6 +4,7 @@ go 1.23.0
 
 require (
 	github.com/google/gopacket v1.1.19
+	github.com/yl2chen/cidranger v1.0.2
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
 )
 

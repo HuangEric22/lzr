@@ -16,11 +16,15 @@ limitations under the License.
 package lzr
 
 import (
-	//"fmt"
+	"fmt"
 )
 
 func SendSyn(packet * packet_metadata, ipMeta * pState,
 	timeoutQueue chan *packet_metadata ) {
+		if (block_list != nil && isBlocked(block_list, packet.Saddr)) {
+			fmt.Println("IP: is blocked!", packet.Saddr)			
+			return
+		}		
 		packet.updateResponse( SYN_ACK )
 		packet.updateTimestamp()
 		ipMeta.update( packet )
