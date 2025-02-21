@@ -26,6 +26,7 @@ import (
 
 func BuildTrie() (cidranger.Ranger, error) {
     filePath := getBlockedList()
+    fmt.Println("Building Trie from: ", filePath)		
 
     if filePath == "" {
         return nil, nil
@@ -42,17 +43,20 @@ func BuildTrie() (cidranger.Ranger, error) {
     scanner := bufio.NewScanner(file)
     for scanner.Scan() {
         ip := scanner.Text()
-        // skip empty lines
-        if ip == "" {
-            fmt.Printf("EMPTY LINE FOUND! \n")
-            continue
-        }
+
 
         if idx := strings.Index(ip, "#"); idx != -1 {
             ip = ip[:idx]
         }
 
         ip = strings.TrimSpace(ip)
+        // fmt.Println("Reading Line: ", ip)		
+
+        //skip comments (lines that start with #) or empty lines
+        if ip == "" {
+            // fmt.Printf("EMPTY LINE FOUND! \n")
+            continue
+        }
 
 		_, prefix, err := net.ParseCIDR(ip);
 
@@ -77,7 +81,7 @@ func BuildTrie() (cidranger.Ranger, error) {
 	// 	fmt.Println(cidr)
 	// }
 
-    fmt.Println("BLOCK LIST INITIALIZED")
+    // fmt.Println("BLOCK LIST INITIALIZED")
 
 	return trie, nil;
 }

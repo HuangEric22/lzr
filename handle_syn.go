@@ -24,7 +24,8 @@ func SendSyn(packet * packet_metadata, ipMeta * pState,
 		if (block_list != nil && isBlocked(block_list, packet.Saddr)) {
 			fmt.Println("IP: is blocked!", packet.Saddr)			
 			return
-		}		
+		}
+		// fmt.Println("Sending to IP: ", packet.Saddr)		
 		packet.updateResponse( SYN_ACK )
 		packet.updateTimestamp()
 		ipMeta.update( packet )
