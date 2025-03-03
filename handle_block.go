@@ -44,7 +44,6 @@ func BuildTrie() (cidranger.Ranger, error) {
     for scanner.Scan() {
         ip := scanner.Text()
 
-
         if idx := strings.Index(ip, "#"); idx != -1 {
             ip = ip[:idx]
         }
